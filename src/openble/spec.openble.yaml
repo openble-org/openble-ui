@@ -1,0 +1,47 @@
+openble: 0.1.0
+profile: gatt
+
+info:
+  title: Environment sensor
+  summary: A mock temperature and humidity sensor on Arduino
+  version: 1.0.0
+
+services:
+  environmentalSensing:
+    uuid: 181A
+    summary: Service to read temperature and humidity
+    characteristics:
+      temperature:
+        uuid: 2A1F
+        summary: Read or write temperature in Degree Celsius
+        permissions:
+          - 0x02 # BLERead
+          - 0x08 # BLEWrite
+        descriptors:
+          # Characteristic User Description (CUD)- "External Temperature in Celsius" in little endian
+          2901: [0x7845, 0x6574, 0x6e72, 0x6c61, 0x5420, 0x6d65, 0x6570, 0x6172, 0x7574, 0x6572, 0x6920, 0x206e, 0x6543, 0x736c, 0x7569, 0x0073]
+
+          # Characteristic Presentation Format (CPF)
+          2904:
+            - 0x04 # format- "unsigned 8-bit integer"
+            - 0x00 # exponent- 0
+            - 0x30 # unit (lower bit)- degree celsius
+            - 0x27 # unit (upper bit)
+            - 0x01 # namespace- "Bluetooth SIG Assigned Numbers"
+            - 0x06 # description (lower bit)- main
+            - 0x01 # description (upper bit)
+
+          # TODO implement
+          # CPF:
+          #   format: FORMAT.UNSIGNED_8_BIT_INT
+          #   exponent: 0
+          #   unit: UNIT.DEGREE_CELSEUS
+          #   namespace: NAMESPACE.SIG
+          #   description: DESCRIPTION.MAIN
+
+      humidity:
+        uuid: 2A6F
+        summary: Read humidity in percentage. A value of 50 denotes 50% humidity
+        permissions:
+          - 0x02 # BLERead
+

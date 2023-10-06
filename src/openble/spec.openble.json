@@ -1,0 +1,61 @@
+{
+   "openble": "0.1.0",
+   "profile": "gatt",
+   "info": {
+      "title": "Environment sensor",
+      "summary": "A mock temperature and humidity sensor on Arduino",
+      "version": "1.0.0"
+   },
+   "services": {
+      "environmentalSensing": {
+         "uuid": "181A",
+         "summary": "Service to read temperature and humidity",
+         "characteristics": {
+            "temperature": {
+               "uuid": "2A1F",
+               "summary": "Read or write temperature in Degree Celsius",
+               "permissions": [
+                  2,
+                  8
+               ],
+               "descriptors": {
+                  "2901": [
+                     30789,
+                     25972,
+                     28274,
+                     27745,
+                     21536,
+                     28005,
+                     25968,
+                     24946,
+                     30068,
+                     25970,
+                     26912,
+                     8302,
+                     25923,
+                     29548,
+                     30057,
+                     115
+                  ],
+                  "2904": [
+                     4,
+                     0,
+                     48,
+                     39,
+                     1,
+                     6,
+                     1
+                  ]
+               }
+            },
+            "humidity": {
+               "uuid": "2A6F",
+               "summary": "Read humidity in percentage. A value of 50 denotes 50% humidity",
+               "permissions": [
+                  2
+               ]
+            }
+         }
+      }
+   }
+}
