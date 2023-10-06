@@ -1,6 +1,6 @@
 import schema from '../openble/spec.openble.json'
 
-interface Schema {
+export interface Schema {
   openble: string
   profile: string
   info: {
@@ -13,7 +13,7 @@ interface Schema {
   }
 }
 
-interface Service {
+export interface Service {
   uuid: string
   summary: string
   characteristics: {
@@ -21,7 +21,7 @@ interface Service {
   }
 }
 
-interface Characteristic {
+export interface Characteristic {
   uuid: string
   summary: string
   permissions: number[]
@@ -30,6 +30,8 @@ interface Characteristic {
   }
 }
 
-function parseSchema() {
+export function parsedSchema(): Schema {
   const parsedSchema: Schema = schema
+
+  return parsedSchema
 }
