@@ -2,18 +2,23 @@ import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import Chip from '@mui/material/Chip';
+import Snackbar from '@mui/material/Snackbar';
 import Divider from '@mui/material/Divider';
 import { useTheme } from '@mui/material/styles';
 import Grid from '@mui/material/Unstable_Grid2';
+import Alert from '@mui/material/Alert';
 
 import { useState } from 'react'
 import MainAppBar from './components/MainAppBar'
 import { parsedSchema } from './lib'
+import useBluetoothError from './hooks/useBluetoothError';
 
 const schema = parsedSchema()
 
 function App() {
   const theme = useTheme();
+  const bluetoothError = useBluetoothError()
+  console.log('bluetoothError', bluetoothError)
 
   return (
     <Box>
@@ -38,7 +43,7 @@ function App() {
         <Box marginTop={2}></Box>
         <Typography variant='body1'>{schema.info.summary}</Typography>
 
-        <Box marginTop={12}/>
+        <Box marginTop={12} />
         <Grid container spacing={1}>
           <Grid>
             <Typography variant='h4'>Services</Typography>
@@ -48,6 +53,18 @@ function App() {
           </Grid>
         </Grid>
       </Container>
+
+      {/* {
+        bluetoothError !== undefined && <Alert severity="error">This is an error alert — check it out!</Alert>
+      } */}
+
+      <Snackbar
+        open={!!bluetoothError}
+        autoHideDuration={null}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert severity="error">{bluetoothError}</Alert>
+      </Snackbar>
     </Box>
   )
 }
