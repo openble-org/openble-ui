@@ -2,6 +2,7 @@ import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import Chip from '@mui/material/Chip';
+import Divider from '@mui/material/Divider';
 import { useTheme } from '@mui/material/styles';
 import Grid from '@mui/material/Unstable_Grid2';
 
@@ -36,6 +37,16 @@ function App() {
 
         <Box marginTop={2}></Box>
         <Typography variant='body1'>{schema.info.summary}</Typography>
+
+        <Box marginTop={12}/>
+        <Grid container spacing={1}>
+          <Grid>
+            <Typography variant='h4'>Services</Typography>
+          </Grid>
+          <Grid>
+            <Chip label={`#${Object.keys(schema.services).length}`} />
+          </Grid>
+        </Grid>
       </Container>
     </Box>
   )
