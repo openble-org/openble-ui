@@ -2,3 +2,5 @@
 
 // Web bluetooth- to fix navigator.bluetooth type error
 /// <reference types="web-bluetooth" />
+
+declare module 'bluetooth-numbers-database';

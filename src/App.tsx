@@ -17,12 +17,15 @@ import { parseSchema } from './lib'
 import useBluetoothError from './hooks/useBluetoothError';
 import { ListItem } from '@mui/material';
 import ServiceComponent from './components/ServiceComponent';
-
-const schema = parseSchema()
+import useSchema from './hooks/useSchema';
 
 function App() {
-  const theme = useTheme();
+  const schema = useSchema()
   const bluetoothError = useBluetoothError()
+
+  if (schema === undefined) {
+    return <></>
+  }
 
   return (
     <Box>

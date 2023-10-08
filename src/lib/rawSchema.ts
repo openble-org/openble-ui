@@ -14,15 +14,30 @@ export interface RawSchema {
 }
 
 export interface RawService {
-  name: string
-  summary: string
+  // The service name. Required for custom services. Overwritten by official name for known services.
+  name?: string
+
+  // Service identifier. Required for custom services. Overwritten by official identifier for known services.
+  identifier?: string
+
+  // The service summary, optional
+  summary?: string
+
+  // Characteristics
   characteristics: {
     [uuid: string]: RawCharacteristic
   }
 }
 
 export interface RawCharacteristic {
-  name: string
-  summary: string
+  // The characteristic name. Required for custom characteristics. Overwritten by official name for known services
+  name?: string
+
+  // Characteristic identifier. Required for custom characteristics. Overwritten by official identifier for known services
+  identifier?: string
+
+  // The characteristic's summary, optional
+  summary?: string
+
   permissions: string[]
 }

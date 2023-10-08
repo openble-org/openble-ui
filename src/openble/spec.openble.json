@@ -7,11 +7,11 @@
       "version": "1.0.0"
    },
    "services": {
-      "181A": {
+      "environmental_sensing": {
          "name": "Environmental Sensing Service",
          "summary": "Service to read temperature and humidity",
          "characteristics": {
-            "2A1F": {
+            "temperature_celsius": {
                "name": "Temperature",
                "summary": "Read or write temperature in Degree Celsius",
                "permissions": [
@@ -19,7 +19,7 @@
                   "WRITE"
                ]
             },
-            "2A6F": {
+            "humidity": {
                "name": "Humidity",
                "summary": "Read humidity in percentage. A value of 50 denotes 50% humidity",
                "permissions": [

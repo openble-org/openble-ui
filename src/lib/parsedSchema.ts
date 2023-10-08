@@ -13,20 +13,41 @@ export interface ParsedSchema {
   }
   services: {
     // A service along with its full UUID
-    [uuid: string]: ParsedService
+    [fullUuid: string]: ParsedService
   }
 }
 
 export interface ParsedService {
+  // The service name
   name: string
-  summary: string
+
+  // The full identifier
+  identifier: string
+
+  // The source of the UUID's definition. Equals `custom` if the UUID is not recorded in Nordic's database
+  source: string
+
+  // Service summary
+  summary?: string
+
   characteristics: {
-    [uuid: string]: ParsedCharacteristic
+    [fullUuid: string]: ParsedCharacteristic
   }
 }
 
 export interface ParsedCharacteristic {
+  // The service name
   name: string
-  summary: string
+
+  // The full identifier
+  identifier: string
+
+  // The source of the UUID's definition. Equals `custom` if the UUID is not recorded in Nordic's database
+  source: string
+
+  // Service summary
+  summary?: string
+
+  // Characteristic permissions
   permissions: OPENBLE_CHARACTERISTIC_PERMISSION[]
 }
