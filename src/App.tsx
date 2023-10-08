@@ -31,7 +31,7 @@ function App() {
     <Box>
       <MainAppBar />
       <Box marginTop={4}></Box>
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <Grid container spacing={1}>
           <Grid>
             <Typography variant='h3'>{schema.info.title}</Typography>
@@ -70,13 +70,13 @@ function App() {
         </List>
       </Container>
 
-      <Snackbar
+      {/* <Snackbar
         open={!!bluetoothError}
         autoHideDuration={null}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
         <Alert severity="error">{bluetoothError}</Alert>
-      </Snackbar>
+      </Snackbar> */}
     </Box>
   )
 }
