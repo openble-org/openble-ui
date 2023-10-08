@@ -8,8 +8,9 @@ export interface RawSchema {
     description: string
     version: string
   }
-  services: {
-    [uuid: string]: RawService
+  services?: {
+    // The serviceKey can be the short UUID, long UUID, short identifier or long identifier
+    [serviceKey: string]: RawService
   }
 }
 
@@ -24,8 +25,9 @@ export interface RawService {
   summary?: string
 
   // Characteristics
-  characteristics: {
-    [uuid: string]: RawCharacteristic
+  characteristics?: {
+    // The characteristicKey can be the short UUID, long UUID, short identifier or long identifier
+    [characteristicKey: string]: RawCharacteristic
   }
 }
 
@@ -40,4 +42,9 @@ export interface RawCharacteristic {
   summary?: string
 
   permissions: string[]
+
+  descriptors?: {
+    // The descriptorKey can be the short UUID, long UUID, short identifier or long identifier
+    [descriptorKey: string]: number[]
+  }
 }

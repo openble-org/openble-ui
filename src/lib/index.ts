@@ -22,7 +22,7 @@ export function parseSchema(): ParsedSchema {
   }
 
   // Parse services
-  for (const [serviceKey, rawService] of Object.entries(rawSchema.services)) {
+  for (const [serviceKey, rawService] of Object.entries(rawSchema.services ?? {})) {
     const recordedService = findRecordedAttribute(serviceKey, "service")
 
     let parsedService: ParsedService
@@ -52,7 +52,7 @@ export function parseSchema(): ParsedSchema {
     }
 
     // Parse characteristics
-    for (const [characteristicKey, rawCharacteristic] of Object.entries(rawService.characteristics)) {
+    for (const [characteristicKey, rawCharacteristic] of Object.entries(rawService.characteristics ?? {})) {
       const recordedCharacteristic = findRecordedAttribute(characteristicKey, "characteristic")
 
       let parsedCharacteristic: ParsedCharacteristic
