@@ -13,17 +13,16 @@ import Alert from '@mui/material/Alert';
 
 import { useState } from 'react'
 import MainAppBar from './components/MainAppBar'
-import { parsedSchema } from './lib'
+import { parseSchema } from './lib'
 import useBluetoothError from './hooks/useBluetoothError';
 import { ListItem } from '@mui/material';
 import ServiceComponent from './components/ServiceComponent';
 
-const schema = parsedSchema()
+const schema = parseSchema()
 
 function App() {
   const theme = useTheme();
   const bluetoothError = useBluetoothError()
-  console.log('bluetoothError', bluetoothError)
 
   return (
     <Box>
@@ -46,7 +45,7 @@ function App() {
         </Grid>
 
         <Box marginTop={2}></Box>
-        <Typography variant='body1'>{schema.info.summary}</Typography>
+        <Typography variant='body1'>{schema.info.description}</Typography>
 
         <Box marginTop={12} />
         <Grid container spacing={1}>
@@ -61,7 +60,7 @@ function App() {
         <List>
           {
             Object.entries(schema.services).map(([serviceId, service], index) => {
-              return <ServiceComponent key={serviceId} index={index} serviceId={serviceId} service={service} />
+              return <ServiceComponent key={serviceId} index={index} serviceUuid={serviceId} service={service} />
             })
           }
 

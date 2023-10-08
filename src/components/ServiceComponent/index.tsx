@@ -6,17 +6,17 @@ import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Unstable_Grid2'
 import Chip from '@mui/material/Chip'
 import React from 'react'
-import { Service } from '../../lib'
+import { ParsedService } from '../../lib/parsedSchema'
 
 interface ServiceComponentProps {
   index: number
-  serviceId: string
-  service: Service
+  serviceUuid: string
+  service: ParsedService
 }
 
 export default function ServiceComponent({
   index,
-  serviceId,
+  serviceUuid,
   service
 }: ServiceComponentProps) {
   return <ListItem>
@@ -24,7 +24,7 @@ export default function ServiceComponent({
       <CardContent>
         <Grid container spacing={1}>
           <Grid>
-            <Typography variant='h5'>{`${index + 1}. ${serviceId}`}</Typography>
+            <Typography variant='h5'>{`${index + 1}. ${service.name}`}</Typography>
           </Grid>
           <Grid>
             <Typography variant="subtitle1">{service.summary}</Typography>
@@ -33,7 +33,7 @@ export default function ServiceComponent({
             <Chip label="SIG" color="primary" />
           </Grid>
           <Grid xs={12}>
-            <Typography>UUID: 000<strong>0181A</strong>-0000-1000-8000-00805F9B34FB</Typography>
+            <Typography>{serviceUuid}</Typography>
           </Grid>
         </Grid>
 
