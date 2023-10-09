@@ -66,17 +66,8 @@ function App() {
               return <ServiceComponent key={serviceId} index={index} serviceUuid={serviceId} service={service} />
             })
           }
-
         </List>
       </Container>
-
-      {/* <Snackbar
-        open={!!bluetoothError}
-        autoHideDuration={null}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      >
-        <Alert severity="error">{bluetoothError}</Alert>
-      </Snackbar> */}
     </Box>
   )
 }

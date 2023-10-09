@@ -7,7 +7,8 @@ import Grid from '@mui/material/Unstable_Grid2'
 import Chip from '@mui/material/Chip'
 import React from 'react'
 import { ParsedService } from '../../lib/parsedSchema'
-import { Box, Button } from '@mui/material'
+import { Box, Button, List } from '@mui/material'
+import CharacteristicCard from './CharacteristicCard'
 
 interface ServiceComponentProps {
   index: number
@@ -57,8 +58,21 @@ export default function ServiceComponent({
           <Grid>
             <Chip label={`#${Object.keys(service.characteristics).length}`} />
           </Grid>
+          <Grid xs={12}>
+            <List>
+              {
+                Object.entries(service.characteristics).map(([characteristicUuid, characteristic], index) => {
+                  return <CharacteristicCard
+                    key={characteristicUuid}
+                    index={index}
+                    uuid={characteristicUuid}
+                    characteristic={characteristic}
+                  />
+                })
+              }
+            </List>
+          </Grid>
         </Grid>
-
 
       </CardContent>
     </Card>
