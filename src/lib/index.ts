@@ -8,11 +8,9 @@ export function parseSchema(): ParsedSchema {
   const rawSchema: RawSchema = schema
 
   invariant(rawSchema.openble === "0.1.0", `unknown schema ${rawSchema.openble}`);
-  invariant(rawSchema.profile === "gatt", `unknown profile ${rawSchema.profile}`);
 
   const parsedSchema: ParsedSchema = {
     openble: rawSchema.openble,
-    profile: rawSchema.profile,
     info: {
       title: rawSchema.info.title,
       description: rawSchema.info.description,
@@ -55,6 +53,12 @@ export function parseSchema(): ParsedSchema {
     for (const [characteristicKey, rawCharacteristic] of Object.entries(rawService.characteristics ?? {})) {
       const recordedCharacteristic = findRecordedAttribute(characteristicKey, "characteristic")
 
+      invariant(
+        rawCharacteristic.dataType === "UINT32"
+        || rawCharacteristic.dataType === "INT32",
+        `Unsupported data type ${rawCharacteristic.dataType} for characteristic ${characteristicKey}`
+      );
+
       let parsedCharacteristic: ParsedCharacteristic
 
       if (recordedCharacteristic !== undefined) {
@@ -63,6 +67,7 @@ export function parseSchema(): ParsedSchema {
           identifier: recordedCharacteristic.identifier,
           source: recordedCharacteristic.source,
           summary: rawCharacteristic.summary,
+          dataType: rawCharacteristic.dataType,
           permissions: []
         }
         parsedCharacteristic = parsedService.characteristics[recordedCharacteristic.uuid]
@@ -76,6 +81,7 @@ export function parseSchema(): ParsedSchema {
           identifier: rawCharacteristic.identifier,
           source: 'custom',
           summary: rawCharacteristic.summary,
+          dataType: rawCharacteristic.dataType,
           permissions: []
         }
         parsedCharacteristic = parsedService.characteristics[characteristicKey]

@@ -123,9 +123,6 @@ function App() {
           <Grid>
             <Chip label={`OpenBLE ${schema.openble}`} color="primary" />
           </Grid>
-          <Grid>
-            <Chip label={`Profile ${schema.profile}`} color="secondary" />
-          </Grid>
           <Grid xs={12} marginTop={2}>
             <Typography variant='body1'>{schema.info.description}</Typography>
           </Grid>

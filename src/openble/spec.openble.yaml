@@ -1,5 +1,4 @@
 openble: 0.1.0
-profile: gatt
 
 info:
   title: Environment sensor
@@ -14,11 +13,14 @@ services:
       temperature_celsius:
         name: Temperature
         summary: Read or write temperature in Degree Celsius
+        dataType: INT32
         permissions:
           - READ
           - WRITE
       humidity:
         name: Humidity
         summary: Read humidity in percentage. A value of 50 denotes 50% humidity
+        dataType: UINT32
         permissions:
           - READ
+

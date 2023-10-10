@@ -5,6 +5,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import { ParsedCharacteristic } from "../../lib/parsedSchema"
 import { useContext, useState } from "react"
 import { BluetoothContext } from "../../contexts/BluetoothContext"
+import { decodeType, encodeType } from "../../lib/dataTypes"
 
 interface CharacteristicCardProps {
   index: number
@@ -35,10 +36,10 @@ export default function CharacteristicCard({
     try {
       const value = await connectedCharacteristic.readValue()
       // TODO parse based on datatype field in schema
-      const parsedValue = value.getInt32(0, true)
-      console.log('readValue', value, parsedValue)
-      setReadValue(parsedValue.toString())
-    } catch(error) {
+      const decodedValue = decodeType(value, characteristic.dataType)
+      console.log('readValue', value, decodedValue)
+      setReadValue(decodedValue.toString())
+    } catch (error) {
       console.error('Failed to read', error)
     }
   }
@@ -49,12 +50,10 @@ export default function CharacteristicCard({
     }
 
     try {
-      // TODO encode value
-      const parsedValue = new DataView(new ArrayBuffer(4))
-      parsedValue.setInt32(0, 50, true)
-
-      await connectedCharacteristic.writeValue(parsedValue)
-    } catch(error) {
+      const encodedValue = encodeType(writeValue, characteristic.dataType)
+      console.log('encoded as', encodedValue)
+      await connectedCharacteristic.writeValue(encodedValue)
+    } catch (error) {
       console.error('Failed to write', error)
     }
   }
@@ -80,8 +79,11 @@ export default function CharacteristicCard({
           <Grid>
             <Chip label={characteristic.source} color="primary" size="small" />
           </Grid>
-          <Grid xs={12} marginBottom={1}>
+          <Grid xs={12}>
             <Typography><strong>Identifier: </strong>{characteristic.identifier}</Typography>
+          </Grid>
+          <Grid xs={12} marginBottom={1}>
+            <Typography><strong>Type: </strong>{characteristic.dataType}</Typography>
           </Grid>
 
           <Grid>
@@ -142,7 +144,15 @@ export default function CharacteristicCard({
                   <Button onClick={handleWriteValue} variant="contained" color="success" disabled={actionsDisabled}>Write</Button>
                 </Grid>
                 <Grid alignItems="baseline">
-                  <TextField value={writeValue} onChange={(event) => setWriteValue(event.target.value)} variant="outlined" size="small" disabled={actionsDisabled} />
+                  {/* TODO allow other types. Only numbers supported now */}
+                  <TextField
+                    value={writeValue}
+                    onChange={(event) => setWriteValue(event.target.value)}
+                    type="number"
+                    variant="outlined"
+                    size="small"
+                    disabled={actionsDisabled}
+                  />
                 </Grid>
               </Grid>
             </Grid>

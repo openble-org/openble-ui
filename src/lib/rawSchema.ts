@@ -2,7 +2,6 @@
 // Parsed types are output by the SDK
 export interface RawSchema {
   openble: string
-  profile: string
   info: {
     title: string
     description: string
@@ -42,6 +41,8 @@ export interface RawCharacteristic {
   summary?: string
 
   permissions: string[]
+
+  dataType: string
 
   descriptors?: {
     // The descriptorKey can be the short UUID, long UUID, short identifier or long identifier
