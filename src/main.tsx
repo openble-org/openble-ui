@@ -6,10 +6,13 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import CssBaseline from '@mui/material/CssBaseline';
 import App from './App.tsx'
+import { BluetoothProvider } from './contexts/BluetoothContext.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <CssBaseline />
-    <App />
+    <BluetoothProvider>
+      <App />
+    </BluetoothProvider>
   </React.StrictMode>,
 )

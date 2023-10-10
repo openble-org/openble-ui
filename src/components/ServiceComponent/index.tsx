@@ -1,14 +1,15 @@
-import Paper from '@mui/material/Paper'
 import ListItem from '@mui/material/ListItem'
 import Card from '@mui/material/Card'
+import WarningIcon from '@mui/icons-material/Warning'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Unstable_Grid2'
 import Chip from '@mui/material/Chip'
-import React from 'react'
+import React, { useContext } from 'react'
 import { ParsedService } from '../../lib/parsedSchema'
-import { Box, Button, List } from '@mui/material'
+import { Box, List } from '@mui/material'
 import CharacteristicCard from './CharacteristicCard'
+import { BluetoothContext } from '../../contexts/BluetoothContext'
 
 interface ServiceComponentProps {
   index: number
@@ -19,8 +20,16 @@ interface ServiceComponentProps {
 export default function ServiceComponent({
   index,
   serviceUuid,
-  service
+  service,
 }: ServiceComponentProps) {
+
+  const bluetoothDeviceContext = useContext(BluetoothContext)
+  if (bluetoothDeviceContext === undefined) {
+    throw Error('Not inside a BluetoothDeviceProvider')
+  }
+  const { bluetoothDevice, connectedServices } = bluetoothDeviceContext
+  const connectedService = connectedServices.get(serviceUuid)
+
   return <ListItem>
     <Card sx={{ width: '100%' }}>
       <CardContent>
@@ -45,10 +54,14 @@ export default function ServiceComponent({
             <Typography><strong>Identifier: </strong>{service.identifier}</Typography>
           </Grid>
 
-        </Grid>
+          {
+            bluetoothDevice !== undefined && connectedService === undefined &&
+              <Grid xs={12} marginTop={1}>
+                <Chip label="Failed to find service" icon={<WarningIcon />} color="warning" />
+              </Grid>
+          }
 
-        <Box marginTop={2} />
-        <Button variant="contained">Connect</Button>
+        </Grid>
 
         <Box marginTop={2} />
         <Grid container spacing={1}>
