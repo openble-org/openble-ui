@@ -3,6 +3,8 @@ import Grid from '@mui/material/Unstable_Grid2'
 import DoneIcon from '@mui/icons-material/Done'
 import CloseIcon from '@mui/icons-material/Close'
 import { ParsedCharacteristic } from "../../lib/parsedSchema"
+import { useContext, useState } from "react"
+import { BluetoothContext } from "../../contexts/BluetoothContext"
 
 interface CharacteristicCardProps {
   index: number
@@ -14,6 +16,49 @@ export default function CharacteristicCard({
   uuid,
   characteristic
 }: CharacteristicCardProps) {
+  const bluetoothDeviceContext = useContext(BluetoothContext)
+  if (bluetoothDeviceContext === undefined) {
+    throw Error('Not inside a BluetoothDeviceProvider')
+  }
+  const { connectedCharacteristics } = bluetoothDeviceContext
+  const connectedCharacteristic = connectedCharacteristics.get(uuid)
+  const actionsDisabled = connectedCharacteristic === undefined
+
+  const [readValue, setReadValue] = useState<string>('')
+  const [writeValue, setWriteValue] = useState<string>('')
+
+  async function handleReadValue() {
+    if (connectedCharacteristic === undefined) {
+      throw Error('Failed to read, connectedCharacteristic is undefined')
+    }
+
+    try {
+      const value = await connectedCharacteristic.readValue()
+      // TODO parse based on datatype field in schema
+      const parsedValue = value.getInt32(0, true)
+      console.log('readValue', value, parsedValue)
+      setReadValue(parsedValue.toString())
+    } catch(error) {
+      console.error('Failed to read', error)
+    }
+  }
+
+  async function handleWriteValue() {
+    if (connectedCharacteristic === undefined) {
+      throw Error('Failed to read, connectedCharacteristic is undefined')
+    }
+
+    try {
+      // TODO encode value
+      const parsedValue = new DataView(new ArrayBuffer(4))
+      parsedValue.setInt32(0, 50, true)
+
+      await connectedCharacteristic.writeValue(parsedValue)
+    } catch(error) {
+      console.error('Failed to write', error)
+    }
+  }
+
   return <ListItem>
     <Card sx={{ width: '100%' }}>
       <CardContent>
@@ -72,8 +117,7 @@ export default function CharacteristicCard({
           </Grid>
 
           <Grid xs={12} marginTop={2}>
-            {/* <Box marginY={2} /> */}
-            <Typography variant="subtitle1">Actions</Typography>
+            <Typography variant="subtitle1"><strong>Actions</strong></Typography>
           </Grid>
 
           {
@@ -81,10 +125,10 @@ export default function CharacteristicCard({
             <Grid xs={12} md={6}>
               <Grid container spacing={2} >
                 <Grid alignItems="baseline">
-                  <Button variant="contained">Read</Button>
+                  <Button variant="contained" onClick={handleReadValue} disabled={actionsDisabled}>Read</Button>
                 </Grid>
                 <Grid alignItems="baseline">
-                  <TextField variant="outlined" size="small" />
+                  <TextField value={readValue} variant="outlined" size="small" disabled={true} />
                 </Grid>
               </Grid>
             </Grid>
@@ -95,12 +139,19 @@ export default function CharacteristicCard({
             <Grid xs={12} md={6}>
               <Grid container spacing={2} >
                 <Grid alignItems="baseline">
-                  <Button variant="contained" color="success">Write</Button>
+                  <Button onClick={handleWriteValue} variant="contained" color="success" disabled={actionsDisabled}>Write</Button>
                 </Grid>
                 <Grid alignItems="baseline">
-                  <TextField variant="outlined" size="small" />
+                  <TextField value={writeValue} onChange={(event) => setWriteValue(event.target.value)} variant="outlined" size="small" disabled={actionsDisabled} />
                 </Grid>
               </Grid>
+            </Grid>
+          }
+
+          {
+            actionsDisabled &&
+            <Grid xs={12}>
+              <Typography variant="body2">Connect to enable actions</Typography>
             </Grid>
           }
 
