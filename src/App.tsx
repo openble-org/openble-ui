@@ -1,5 +1,8 @@
 import Box from '@mui/material/Box'
 import DoneIcon from '@mui/icons-material/Done'
+import BluetoothIcon from '@mui/icons-material/Bluetooth'
+import BluetoothConnectedIcon from '@mui/icons-material/BluetoothConnected'
+import BluetoothDisabledIcon from '@mui/icons-material/BluetoothDisabled'
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import Chip from '@mui/material/Chip';
@@ -12,6 +15,7 @@ import MainAppBar from './components/MainAppBar'
 import ServiceComponent from './components/ServiceComponent';
 import useSchema from './hooks/useSchema';
 import { BluetoothContext } from './contexts/BluetoothContext';
+import { matchCharacteristic, matchService } from './utils/matchSchema'
 
 function App() {
   const schema = useSchema()
@@ -23,12 +27,54 @@ function App() {
   const {
     bluetoothDevice,
     setBluetoothDevice,
+    connectedServices,
     serviceActions,
+    connectedCharacteristics,
     characteristicActions,
+    connectedDescriptors,
     descriptorActions
   } = bluetoothDeviceContext
 
   const [connectError, setConnectError] = useState<string | undefined>()
+
+  // Compare schema with read attributes
+  const servicesArray = Object.entries(schema?.services ?? {})
+
+  console.log('connectedCharacteristics', connectedCharacteristics)
+
+  let schemaMatched = false
+  for (const [serviceUuid, parsedService] of servicesArray) {
+    const connectedService = connectedServices.get(serviceUuid)
+
+    // if (connectedService === undefined) {
+    //   break
+    // }
+
+    if (!matchService(connectedService)) {
+      break
+    }
+    const characteristicsArray = Object.entries(parsedService.characteristics)
+    for (const [characteristicUuid, parsedCharacteristic] of characteristicsArray) {
+      const connectedCharacteristic = connectedCharacteristics.get(characteristicUuid)
+
+      if (!matchCharacteristic(connectedCharacteristic, parsedCharacteristic)) {
+        break
+      }
+      // if (
+      //   connectedCharacteristic === undefined
+      //   || !(connectedCharacteristic.properties.read === parsedCharacteristic.permissions.includes('READ'))
+      //   || !(connectedCharacteristic.properties.write === parsedCharacteristic.permissions.includes('WRITE'))
+      //   || !(connectedCharacteristic.properties.notify === parsedCharacteristic.permissions.includes('NOTIFY'))
+      //   || !(connectedCharacteristic.properties.indicate === parsedCharacteristic.permissions.includes('INDICATE'))
+      // ) {
+      //   break
+      // }
+
+      // TODO compare descriptors
+
+      schemaMatched = true
+    }
+  }
 
   async function handleConnect() {
     // Clear existing error
@@ -71,7 +117,7 @@ function App() {
               for (const descriptor of descriptors) {
                 descriptorActions.set(descriptor.uuid.toUpperCase(), descriptor)
               }
-            } catch(error) {
+            } catch (error) {
               console.error(`Failed to fetch descriptors for characteristic ${characteristic.uuid.toUpperCase()}`, error)
             }
 
@@ -127,15 +173,42 @@ function App() {
             <Typography variant='body1'>{schema.info.description}</Typography>
           </Grid>
           <Grid xs={12} marginTop={4}>
-            {
-              bluetoothDevice !== undefined && <Chip label="connected" icon={<DoneIcon />} color="primary" />
-            }
+            <Grid container spacing={1}>
+              {
+                bluetoothDevice !== undefined &&
+                <Grid>
+                  <Chip label="connected" icon={<BluetoothConnectedIcon />} color="primary" />
+                </Grid>
+              }
+              {
+                bluetoothDevice !== undefined && (schemaMatched
+                  ? <Grid>
+                    <Chip label="Schema matched" icon={<DoneIcon />} color="success" />
+                  </Grid>
+                  : <Grid>
+                    <Chip label="Match failed" icon={<DoneIcon />} color="warning" />
+                  </Grid>)
+              }
+            </Grid>
           </Grid>
-          <Grid xs={12} marginTop={2}>
+          <Grid xs={12} marginTop={3}>
             {
               bluetoothDevice === undefined
-                ? <Button variant="contained" onClick={handleConnect}>Connect</Button>
-                : <Button variant="contained" color="secondary" onClick={handleDisconnectClick}>Disconnect</Button>
+                ? <Button
+                    variant="contained"
+                    onClick={handleConnect}
+                    startIcon={<BluetoothIcon />}
+                  >
+                    Connect
+                  </Button>
+                : <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleDisconnectClick}
+                    startIcon={<BluetoothDisabledIcon />}
+                  >
+                    Disconnect
+                  </Button>
             }
 
           </Grid>

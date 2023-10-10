@@ -2,10 +2,12 @@ import { Box, Button, Card, CardContent, Chip, ListItem, TextField, Typography }
 import Grid from '@mui/material/Unstable_Grid2'
 import DoneIcon from '@mui/icons-material/Done'
 import CloseIcon from '@mui/icons-material/Close'
+import WarningIcon from '@mui/icons-material/Warning'
 import { ParsedCharacteristic } from "../../lib/parsedSchema"
 import { useContext, useState } from "react"
 import { BluetoothContext } from "../../contexts/BluetoothContext"
 import { decodeType, encodeType } from "../../lib/dataTypes"
+import { matchCharacteristic } from "../../utils/matchSchema"
 
 interface CharacteristicCardProps {
   index: number
@@ -23,6 +25,10 @@ export default function CharacteristicCard({
   }
   const { connectedCharacteristics } = bluetoothDeviceContext
   const connectedCharacteristic = connectedCharacteristics.get(uuid)
+
+  const characteristicMatched = matchCharacteristic(connectedCharacteristic, characteristic)
+
+  // TODO only disable actions which did not match
   const actionsDisabled = connectedCharacteristic === undefined
 
   const [readValue, setReadValue] = useState<string>('')
@@ -117,6 +123,12 @@ export default function CharacteristicCard({
                 : <Chip label="Indicate" icon={<CloseIcon />} size="small" />
             }
           </Grid>
+
+          {
+            !characteristicMatched && <Grid xs={12} marginTop={3}>
+              <Chip label="Failed to match" icon={<WarningIcon />} color="warning" />
+            </Grid>
+          }
 
           <Grid xs={12} marginTop={2}>
             <Typography variant="subtitle1"><strong>Actions</strong></Typography>

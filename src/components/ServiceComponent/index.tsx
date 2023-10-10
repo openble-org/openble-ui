@@ -10,6 +10,7 @@ import { ParsedService } from '../../lib/parsedSchema'
 import { Box, List } from '@mui/material'
 import CharacteristicCard from './CharacteristicCard'
 import { BluetoothContext } from '../../contexts/BluetoothContext'
+import { matchService } from '../../utils/matchSchema'
 
 interface ServiceComponentProps {
   index: number
@@ -27,7 +28,7 @@ export default function ServiceComponent({
   if (bluetoothDeviceContext === undefined) {
     throw Error('Not inside a BluetoothDeviceProvider')
   }
-  const { bluetoothDevice, connectedServices } = bluetoothDeviceContext
+  const { connectedServices } = bluetoothDeviceContext
   const connectedService = connectedServices.get(serviceUuid)
 
   return <ListItem>
@@ -53,14 +54,12 @@ export default function ServiceComponent({
           <Grid xs={12}>
             <Typography><strong>Identifier: </strong>{service.identifier}</Typography>
           </Grid>
-
           {
-            bluetoothDevice !== undefined && connectedService === undefined &&
+            !matchService(connectedService) &&
               <Grid xs={12} marginTop={1}>
-                <Chip label="Failed to find service" icon={<WarningIcon />} color="warning" />
+                <Chip label="Failed to match" icon={<WarningIcon />} color="warning" />
               </Grid>
           }
-
         </Grid>
 
         <Box marginTop={2} />
