@@ -16,6 +16,7 @@ import ServiceComponent from './components/ServiceComponent';
 import useSchema from './hooks/useSchema';
 import { BluetoothContext } from './contexts/BluetoothContext';
 import { matchCharacteristic, matchService } from './utils/matchSchema'
+import Markdown from 'react-markdown'
 
 function App() {
   const schema = useSchema()
@@ -31,7 +32,6 @@ function App() {
     serviceActions,
     connectedCharacteristics,
     characteristicActions,
-    connectedDescriptors,
     descriptorActions
   } = bluetoothDeviceContext
 
@@ -46,10 +46,6 @@ function App() {
   for (const [serviceUuid, parsedService] of servicesArray) {
     const connectedService = connectedServices.get(serviceUuid)
 
-    // if (connectedService === undefined) {
-    //   break
-    // }
-
     if (!matchService(connectedService)) {
       break
     }
@@ -60,15 +56,6 @@ function App() {
       if (!matchCharacteristic(connectedCharacteristic, parsedCharacteristic)) {
         break
       }
-      // if (
-      //   connectedCharacteristic === undefined
-      //   || !(connectedCharacteristic.properties.read === parsedCharacteristic.permissions.includes('READ'))
-      //   || !(connectedCharacteristic.properties.write === parsedCharacteristic.permissions.includes('WRITE'))
-      //   || !(connectedCharacteristic.properties.notify === parsedCharacteristic.permissions.includes('NOTIFY'))
-      //   || !(connectedCharacteristic.properties.indicate === parsedCharacteristic.permissions.includes('INDICATE'))
-      // ) {
-      //   break
-      // }
 
       // TODO compare descriptors
 
@@ -170,9 +157,9 @@ function App() {
             <Chip label={`OpenBLE ${schema.openble}`} color="primary" />
           </Grid>
           <Grid xs={12} marginTop={2}>
-            <Typography variant='body1'>{schema.info.description}</Typography>
+            <Markdown>{schema.info.description}</Markdown>
           </Grid>
-          <Grid xs={12} marginTop={4}>
+          <Grid xs={12}>
             <Grid container spacing={1}>
               {
                 bluetoothDevice !== undefined &&

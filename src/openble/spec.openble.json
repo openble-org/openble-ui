@@ -2,7 +2,7 @@
    "openble": "0.1.0",
    "info": {
       "title": "Environment sensor",
-      "description": "A mock temperature and humidity sensor on Arduino",
+      "description": "OpenBLE is swagger for Bluetooth Low Energy (BLE), an API definition language for GATT services.\n\n### Features\n\n1. Connect and perfrom CRUD from the browser\n2. Automatically validate your schema, just by connecting\n3. Generate type safe clients and peripheral stubs\n4. Version control your BLE APIs\n\n### Links\n\n- [Learn more](openble.org)\n- [Contribute on GitHub](https://github.com/openble-org/openble)\n- Investors: contact@openble.org\n\nSupport the future of wireless APIs by [staring OpenBLE on GitHub](https://github.com/openble-org)\n",
       "version": "1.0.0"
    },
    "services": {
