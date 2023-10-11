@@ -6,7 +6,7 @@ export type CHARACTERISTIC_PERMISSION = "READ" | "WRITE" | "NOTIFY" | "INDICATE"
 
 // TODO support other types
 // export type CHARACTERISTIC_TYPE = "BOOL" | "UINT8" | "INT8" | "UINT16" | "INT16" | "UINT32" | "INT32" | "UINT64" | "INT64" | "FLOAT32" | "FLOAT64"
-export type CHARACTERISTIC_TYPE = "UINT32" | "INT32"
+export type CHARACTERISTIC_TYPE = "INT32"
 
 export interface ParsedSchema {
   openble: OPENBLE_VERSION

@@ -37,6 +37,6 @@ services:
       humidity:
         name: Humidity
         summary: Read humidity in percentage. A value of 50 denotes 50% humidity
-        dataType: UINT32
+        dataType: INT32
         permissions:
           - READ

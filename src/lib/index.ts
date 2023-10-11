@@ -54,8 +54,7 @@ export function parseSchema(): ParsedSchema {
       const recordedCharacteristic = findRecordedAttribute(characteristicKey, "characteristic")
 
       invariant(
-        rawCharacteristic.dataType === "UINT32"
-        || rawCharacteristic.dataType === "INT32",
+        rawCharacteristic.dataType === "INT32",
         `Unsupported data type ${rawCharacteristic.dataType} for characteristic ${characteristicKey}`
       );
 

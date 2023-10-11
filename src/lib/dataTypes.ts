@@ -9,11 +9,6 @@ export function encodeType(value: string, type: CHARACTERISTIC_TYPE): DataView {
 
   // TODO implement and support other types
   switch(type) {
-    case "UINT32": {
-      dataView.setUint32(0, numValue, true)
-    }
-    break
-
     case "INT32": {
       dataView.setInt32(0, numValue, true)
     }
@@ -27,9 +22,7 @@ export function encodeType(value: string, type: CHARACTERISTIC_TYPE): DataView {
 
 export function decodeType(value: DataView, type: CHARACTERISTIC_TYPE): number {
   // TODO support other types
-  if (type === "UINT32") {
-    return value.getUint32(0, true)
-  } else if (type === "INT32") {
+  if (type === "INT32") {
     return value.getInt32(0, true)
   } else {
     throw new Error(`Unsupported characteristic type: ${type}`);
