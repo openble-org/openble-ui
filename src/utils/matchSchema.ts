@@ -1,4 +1,4 @@
-import { ParsedCharacteristic, ParsedService } from "../lib/parsedSchema";
+import { ParsedCharacteristic } from "../lib/parsedSchema";
 
 export function matchService(
   connectedService: BluetoothRemoteGATTService | undefined
@@ -11,8 +11,8 @@ export function matchCharacteristic(
   parsedCharacteristic: ParsedCharacteristic
 ): boolean {
   return connectedCharacteristic !== undefined
-    && connectedCharacteristic.properties.read === parsedCharacteristic.permissions.includes('READ')
-    && connectedCharacteristic.properties.write === parsedCharacteristic.permissions.includes('WRITE')
-    && connectedCharacteristic.properties.notify === parsedCharacteristic.permissions.includes('NOTIFY')
-    && connectedCharacteristic.properties.indicate === parsedCharacteristic.permissions.includes('INDICATE')
+    && connectedCharacteristic.properties.read === parsedCharacteristic.permissions.read
+    && connectedCharacteristic.properties.write === parsedCharacteristic.permissions.write
+    && connectedCharacteristic.properties.notify === parsedCharacteristic.permissions.notify
+    && connectedCharacteristic.properties.indicate === parsedCharacteristic.permissions.indicate
 }

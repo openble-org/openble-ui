@@ -7,7 +7,6 @@ export default function useRawSchema(): string | undefined {
       const resp = await fetch('/spec.openble.yaml')
       const file = await resp.text()
 
-      console.log('got file', file)
       setSchema(file)
     }
 

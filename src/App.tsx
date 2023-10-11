@@ -2,8 +2,11 @@ import Box from '@mui/material/Box'
 import DoneIcon from '@mui/icons-material/Done'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import BluetoothIcon from '@mui/icons-material/Bluetooth'
+import CodeIcon from '@mui/icons-material/Code';
 import BluetoothConnectedIcon from '@mui/icons-material/BluetoothConnected'
 import BluetoothDisabledIcon from '@mui/icons-material/BluetoothDisabled'
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver'
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import Chip from '@mui/material/Chip';
@@ -17,9 +20,10 @@ import useSchema from './hooks/useSchema';
 import { BluetoothContext } from './contexts/BluetoothContext';
 import { matchCharacteristic, matchService } from './utils/matchSchema'
 import Markdown from 'react-markdown'
-import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Menu, MenuItem } from '@mui/material'
 import useRawSchema from './hooks/useRawSchema'
 import { CodeBlock, dracula } from 'react-code-blocks'
+import { generateCode } from './lib/codegen';
 
 function App() {
   const schema = useSchema()
@@ -43,8 +47,6 @@ function App() {
 
   // Compare schema with read attributes
   const servicesArray = Object.entries(schema?.services ?? {})
-
-  console.log('connectedCharacteristics', connectedCharacteristics)
 
   let schemaMatched = false
   for (const [serviceUuid, parsedService] of servicesArray) {
@@ -100,6 +102,7 @@ function App() {
 
         try {
           const characteristics = await service.getCharacteristics()
+          console.log('got characteristics', characteristics)
           for (const characteristic of characteristics) {
             characteristicActions.set(characteristic.uuid.toUpperCase(), characteristic)
 
@@ -141,6 +144,37 @@ function App() {
     await bluetoothDevice.forget()
   }
 
+  const [codegenAnchorEl, setAnchorEl] = useState<HTMLElement | undefined>();
+
+  function handleGenerateCode(event: React.MouseEvent<HTMLButtonElement>) {
+    setAnchorEl(event.target as HTMLElement)
+  }
+
+  function handleCloseCodegen() {
+    setAnchorEl(undefined)
+  }
+
+  async function handleGenerateArduino() {
+    if (schema === undefined) {
+      throw Error('Cannot generate with no schema')
+    }
+    try {
+      const zip = new JSZip()
+
+      const files = generateCode(schema)
+
+      files.forEach((file) => {
+        zip.file(file.fileName, file.code);
+      })
+
+      const blob = await zip.generateAsync({ type: 'blob' })
+      saveAs(blob, 'openble-arduinoble.zip')
+
+    } catch (error) {
+      console.error('Generation failed')
+    }
+  }
+
   if (schema === undefined) {
     return <></>
   }
@@ -166,12 +200,12 @@ function App() {
                 <Typography variant="subtitle1">View schema</Typography>
               </AccordionSummary>
               <AccordionDetails>
-              <CodeBlock
-                text={rawSchema ?? ''}
-                language="yaml"
-                showLineNumbers={true}
-                theme={dracula}
-              />
+                <CodeBlock
+                  text={rawSchema ?? ''}
+                  language="yaml"
+                  showLineNumbers={true}
+                  theme={dracula}
+                />
               </AccordionDetails>
             </Accordion>
           </Grid>
@@ -198,24 +232,37 @@ function App() {
             </Grid>
           </Grid>
           <Grid xs={12} marginTop={3}>
-            {
-              bluetoothDevice === undefined
-                ? <Button
-                  variant="contained"
-                  onClick={handleConnect}
-                  startIcon={<BluetoothIcon />}
-                >
-                  Connect
+            <Grid container spacing={1}>
+              <Grid>
+                {
+                  bluetoothDevice === undefined
+                    ? <Button
+                      variant="contained"
+                      onClick={handleConnect}
+                      startIcon={<BluetoothIcon />}
+                    >
+                      Connect
+                    </Button>
+                    : <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={handleDisconnectClick}
+                      startIcon={<BluetoothDisabledIcon />}
+                    >
+                      Disconnect
+                    </Button>
+                }
+              </Grid>
+              <Grid>
+                <Button variant="outlined" startIcon={<CodeIcon />} onClick={handleGenerateCode} disabled={schema === undefined}>
+                  Generate code
                 </Button>
-                : <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={handleDisconnectClick}
-                  startIcon={<BluetoothDisabledIcon />}
-                >
-                  Disconnect
-                </Button>
-            }
+                <Menu open={codegenAnchorEl !== undefined} anchorEl={codegenAnchorEl} onClose={handleCloseCodegen}>
+                  <MenuItem onClick={handleGenerateArduino}>ArduinoBLE</MenuItem>
+                </Menu>
+              </Grid>
+            </Grid>
+
 
           </Grid>
           <Grid xs={12}>

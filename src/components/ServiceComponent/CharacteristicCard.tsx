@@ -94,7 +94,7 @@ export default function CharacteristicCard({
 
           <Grid>
             {
-              characteristic.permissions.includes('READ')
+              characteristic.permissions.read
                 ? <Chip label="Read" icon={<DoneIcon />} color="primary" size="small" />
                 : <Chip label="Read" icon={<CloseIcon />} size="small" />
             }
@@ -102,7 +102,7 @@ export default function CharacteristicCard({
 
           <Grid>
             {
-              characteristic.permissions.includes('WRITE')
+              characteristic.permissions.write
                 ? <Chip label="Write" icon={<DoneIcon />} color="success" size="small" />
                 : <Chip label="Write" icon={<CloseIcon />} size="small" />
             }
@@ -110,7 +110,7 @@ export default function CharacteristicCard({
 
           <Grid>
             {
-              characteristic.permissions.includes('NOTIFY')
+              characteristic.permissions.notify
                 ? <Chip label="Notify" icon={<DoneIcon />} color="warning" size="small" />
                 : <Chip label="Notify" icon={<CloseIcon />} size="small" />
             }
@@ -118,7 +118,7 @@ export default function CharacteristicCard({
 
           <Grid>
             {
-              characteristic.permissions.includes('INDICATE')
+              characteristic.permissions.indicate
                 ? <Chip label="Indicate" icon={<DoneIcon />} color="error" size="small" />
                 : <Chip label="Indicate" icon={<CloseIcon />} size="small" />
             }
@@ -135,7 +135,7 @@ export default function CharacteristicCard({
           </Grid>
 
           {
-            characteristic.permissions.includes('READ') &&
+            characteristic.permissions.read &&
             <Grid xs={12} md={6}>
               <Grid container spacing={2} >
                 <Grid alignItems="baseline">
@@ -149,7 +149,7 @@ export default function CharacteristicCard({
           }
 
           {
-            characteristic.permissions.includes('WRITE') &&
+            characteristic.permissions.write &&
             <Grid xs={12} md={6}>
               <Grid container spacing={2} >
                 <Grid alignItems="baseline">

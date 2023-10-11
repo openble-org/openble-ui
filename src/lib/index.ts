@@ -68,7 +68,12 @@ export function parseSchema(): ParsedSchema {
           source: recordedCharacteristic.source,
           summary: rawCharacteristic.summary,
           dataType: rawCharacteristic.dataType,
-          permissions: []
+          permissions: {
+            read: false,
+            write: false,
+            indicate: false,
+            notify: false
+          }
         }
         parsedCharacteristic = parsedService.characteristics[recordedCharacteristic.uuid]
       } else {
@@ -82,31 +87,34 @@ export function parseSchema(): ParsedSchema {
           source: 'custom',
           summary: rawCharacteristic.summary,
           dataType: rawCharacteristic.dataType,
-          permissions: []
+          permissions: {
+            read: false,
+            write: false,
+            indicate: false,
+            notify: false
+          }
         }
         parsedCharacteristic = parsedService.characteristics[characteristicKey]
       }
 
       // Parse permissions
       for(const permission of rawCharacteristic.permissions) {
-        invariant(
-          permission === 'READ'
-          || permission === 'WRITE'
-          || permission === 'NOTIFY'
-          || permission === 'INDICATE'
-        , `unknown permission ${permission}`);
-
-        // Ensure no duplicates
-        invariant(!parsedCharacteristic.permissions.includes(permission), `Duplicate permission ${permission}`)
-
-        parsedCharacteristic.permissions.push(permission)
+        if (permission === 'READ') {
+          parsedCharacteristic.permissions.read = true
+        } else if (permission === 'WRITE') {
+          parsedCharacteristic.permissions.write = true
+        } else if (permission === 'NOTIFY') {
+          parsedCharacteristic.permissions.notify = true
+        } else if (permission === 'INDICATE') {
+          parsedCharacteristic.permissions.indicate = true
+        } else {
+          throw Error(`unknown permission ${permission}`)
+        }
       }
 
       // TODO parse descriptors
     }
   }
-
-  console.log('parsedSchema', parsedSchema)
 
   return parsedSchema
 }

@@ -53,7 +53,14 @@ export interface ParsedCharacteristic {
   summary?: string
 
   // Characteristic permissions
-  permissions: CHARACTERISTIC_PERMISSION[]
+  permissions: Permissions
 
   dataType: CHARACTERISTIC_TYPE
+}
+
+export interface Permissions {
+  read: boolean
+  write: boolean
+  notify: boolean
+  indicate: boolean
 }
