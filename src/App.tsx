@@ -20,13 +20,15 @@ import useSchema from './hooks/useSchema';
 import { BluetoothContext } from './contexts/BluetoothContext';
 import { matchCharacteristic, matchService } from './utils/matchSchema'
 import Markdown from 'react-markdown'
-import { Accordion, AccordionDetails, AccordionSummary, Menu, MenuItem } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Menu, MenuItem, Snackbar } from '@mui/material'
 import { CodeBlock, dracula } from 'react-code-blocks'
 import { generateCode } from './lib/codegen';
 import rawSchema from './openble/spec.openble.yaml?raw'
+import useBluetoothError from './hooks/useBluetoothError';
 
 function App() {
   const schema = useSchema()
+  const bluetoothError = useBluetoothError()
 
   const bluetoothDeviceContext = useContext(BluetoothContext)
   if (bluetoothDeviceContext === undefined) {
@@ -295,7 +297,18 @@ function App() {
               }
             </List>
           </Grid>
+          {
+            bluetoothError !== undefined && <Grid xs={12} marginBottom={8} />
+          }
+
         </Grid>
+        <Snackbar
+          open={!!bluetoothError}
+          autoHideDuration={null}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        >
+          <Alert severity="error">{bluetoothError}</Alert>
+        </Snackbar>
       </Container>
     </Box>
   )
