@@ -21,13 +21,12 @@ import { BluetoothContext } from './contexts/BluetoothContext';
 import { matchCharacteristic, matchService } from './utils/matchSchema'
 import Markdown from 'react-markdown'
 import { Accordion, AccordionDetails, AccordionSummary, Menu, MenuItem } from '@mui/material'
-import useRawSchema from './hooks/useRawSchema'
 import { CodeBlock, dracula } from 'react-code-blocks'
 import { generateCode } from './lib/codegen';
+import rawSchema from './openble/spec.openble.yaml?raw'
 
 function App() {
   const schema = useSchema()
-  const rawSchema = useRawSchema()
 
   const bluetoothDeviceContext = useContext(BluetoothContext)
   if (bluetoothDeviceContext === undefined) {
@@ -201,7 +200,7 @@ function App() {
               </AccordionSummary>
               <AccordionDetails>
                 <CodeBlock
-                  text={rawSchema ?? ''}
+                  text={rawSchema}
                   language="yaml"
                   showLineNumbers={true}
                   theme={dracula}
