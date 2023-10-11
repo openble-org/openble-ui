@@ -1,13 +1,17 @@
-import { IconButton, Typography } from "@mui/material";
+import { IconButton, Typography, Tooltip, Chip } from "@mui/material";
 import Grid from '@mui/material/Unstable_Grid2'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { enqueueSnackbar } from "notistack";
 
 export interface AttributeIdentifierProps {
   identifier: string
+  source: string
 }
 
-export default function AttributeIdentifier({ identifier }: AttributeIdentifierProps) {
+export default function AttributeIdentifier({ identifier, source }: AttributeIdentifierProps) {
+  const tooltopTitle = source === 'gss'
+    ? 'GATT specification'
+    : `${source} UUID`
 
   async function handleOnPressCopy() {
     try {
@@ -25,6 +29,11 @@ export default function AttributeIdentifier({ identifier }: AttributeIdentifierP
     </Grid>
     <Grid>
       <IconButton size="small" onClick={handleOnPressCopy}><ContentCopyIcon /></IconButton>
+    </Grid>
+    <Grid>
+      <Tooltip title={tooltopTitle}>
+        <Chip label={source} color="primary" size="small" />
+      </Tooltip>
     </Grid>
   </Grid>
 }

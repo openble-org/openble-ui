@@ -1,6 +1,7 @@
 import { RecordedAttribute } from "./types";
 import serviceUuids from "./service_uuids.json"
 import characteristicUuids from './characteristic_uuids.json'
+import invariant from "tiny-invariant";
 
 /**
  * Tests whether a service or characteristic key is a valid short or long UUID
@@ -27,11 +28,17 @@ export function checkIsShortUuid(uuid: string): boolean {
 /**
  * Returns the full 128 bit UUID from the short UUID
  *
- * @param shortUuid
+ * @param uuid
  * @returns
  */
-export function getFullUuid(shortUuid: string): string {
-  return `0000${shortUuid}-0000-1000-8000-00805F9B34FB`
+export function getFullUuid(uuid: string): string {
+  return `0000${uuid}-0000-1000-8000-00805F9B34FB`
+}
+
+export function getShortUuid(uuid: string): string {
+  invariant(!checkIsShortUuid(uuid), `${uuid} is already a short UUID`)
+
+  return uuid.substring(4, 8)
 }
 
 /**

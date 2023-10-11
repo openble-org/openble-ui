@@ -81,11 +81,11 @@ export default function CharacteristicCard({
           </Grid>
 
           <Grid xs={12} marginTop={2}>
-            <AttributeUuid uuid={uuid} source={characteristic.source} />
+            <AttributeIdentifier identifier={characteristic.identifier} source={characteristic.source} />
           </Grid>
 
           <Grid xs={12}>
-            <AttributeIdentifier identifier={characteristic.identifier} />
+            <AttributeUuid uuid={uuid} source={characteristic.source} />
           </Grid>
 
           <Grid xs={12} marginBottom={1}>

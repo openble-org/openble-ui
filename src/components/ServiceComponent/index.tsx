@@ -41,11 +41,11 @@ export default function ServiceComponent({
       </Grid>
 
       <Grid xs={12} marginTop={2}>
-        <AttributeUuid uuid={uuid} source={service.source} />
+        <AttributeIdentifier identifier={service.identifier} source={service.source} />
       </Grid>
 
       <Grid xs={12}>
-        <AttributeIdentifier identifier={service.identifier} />
+        <AttributeUuid uuid={uuid} source={service.source} />
       </Grid>
 
       {
