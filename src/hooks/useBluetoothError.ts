@@ -11,7 +11,7 @@ export default function useBluetoothError(): string | undefined {
       if (navigator.userAgent.includes('iPhone')) {
         setError("Web Bluetooth is not supported on iPhone. Please use Chrome on desktop or Android.");
       } else {
-        setError("Web Bluetooth is not supported in this browser. Please use a compatible browser such as Chrome on desktop or Android.");
+        setError("Your browser does not support Web Bluetooth. Please use Chrome on desktop or Android.");
       }
     }
   }
