@@ -9,16 +9,18 @@ import { List } from '@mui/material'
 import CharacteristicCard from './CharacteristicCard'
 import { BluetoothContext } from '../../contexts/BluetoothContext'
 import { matchService } from '../../utils/matchSchema'
+import AttributeUuid from '../AttributeUuid'
+import AttributeIdentifier from '../AttributeIdentifier'
 
 interface ServiceComponentProps {
   index: number
-  serviceUuid: string
+  uuid: string
   service: ParsedService
 }
 
 export default function ServiceComponent({
   index,
-  serviceUuid,
+  uuid,
   service,
 }: ServiceComponentProps) {
 
@@ -27,7 +29,7 @@ export default function ServiceComponent({
     throw Error('Not inside a BluetoothDeviceProvider')
   }
   const { bluetoothDevice, connectedServices } = bluetoothDeviceContext
-  const connectedService = connectedServices.get(serviceUuid)
+  const connectedService = connectedServices.get(uuid)
 
   return <ListItem>
     <Grid container spacing={1} alignItems="baseline">
@@ -39,18 +41,11 @@ export default function ServiceComponent({
       </Grid>
 
       <Grid xs={12} marginTop={2}>
-        <Grid container spacing={1}>
-          <Grid>
-            <Typography><strong>UUID: </strong>{serviceUuid}</Typography>
-          </Grid>
-          <Grid>
-            <Chip label={service.source} color="primary" size="small" />
-          </Grid>
-        </Grid>
+        <AttributeUuid uuid={uuid} source={service.source} />
       </Grid>
 
       <Grid xs={12}>
-        <Typography><strong>Identifier: </strong>{service.identifier}</Typography>
+        <AttributeIdentifier identifier={service.identifier} />
       </Grid>
 
       {

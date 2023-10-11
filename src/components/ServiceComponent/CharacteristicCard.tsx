@@ -9,6 +9,8 @@ import { BluetoothContext } from "../../contexts/BluetoothContext"
 import { decodeType, encodeType } from "../../lib/dataTypes"
 import { matchCharacteristic } from "../../utils/matchSchema"
 import { enqueueSnackbar } from "notistack"
+import AttributeUuid from "../AttributeUuid"
+import AttributeIdentifier from "../AttributeIdentifier"
 
 interface CharacteristicCardProps {
   index: number
@@ -70,31 +72,29 @@ export default function CharacteristicCard({
   return <ListItem>
     <Card sx={{ width: '100%' }}>
       <CardContent>
-        <Grid container spacing={2} alignItems="baseline">
+        <Grid container spacing={1} alignItems="baseline">
           <Grid>
             <Typography variant="h6">{`${index + 1}. ${characteristic.name}`}</Typography>
           </Grid>
           <Grid>
             <Typography variant="subtitle1">{characteristic.summary}</Typography>
           </Grid>
-        </Grid>
 
-        <Box marginTop={2} />
-        <Grid container spacing={1}>
-          <Grid direction="row">
-            <Typography><strong>UUID: </strong>{uuid}</Typography>
+          <Grid xs={12} marginTop={2}>
+            <AttributeUuid uuid={uuid} source={characteristic.source} />
+          </Grid>
 
-          </Grid>
-          <Grid>
-            <Chip label={characteristic.source} color="primary" size="small" />
-          </Grid>
           <Grid xs={12}>
-            <Typography><strong>Identifier: </strong>{characteristic.identifier}</Typography>
+            <AttributeIdentifier identifier={characteristic.identifier} />
           </Grid>
+
           <Grid xs={12} marginBottom={1}>
             <Typography><strong>Type: </strong>{characteristic.dataType}</Typography>
           </Grid>
 
+        </Grid>
+
+        <Grid container spacing={1}>
           <Grid>
             {
               characteristic.permissions.read

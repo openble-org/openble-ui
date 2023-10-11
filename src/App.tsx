@@ -304,7 +304,7 @@ function App() {
                   return <ServiceComponent
                     key={serviceUuid}
                     index={index}
-                    serviceUuid={serviceUuid}
+                    uuid={serviceUuid}
                     service={service}
                   />
                 })
