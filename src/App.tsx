@@ -1,5 +1,6 @@
 import Box from '@mui/material/Box'
 import DoneIcon from '@mui/icons-material/Done'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import BluetoothIcon from '@mui/icons-material/Bluetooth'
 import BluetoothConnectedIcon from '@mui/icons-material/BluetoothConnected'
 import BluetoothDisabledIcon from '@mui/icons-material/BluetoothDisabled'
@@ -9,7 +10,6 @@ import Chip from '@mui/material/Chip';
 import List from '@mui/material/List'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Unstable_Grid2';
-
 import { useContext, useState } from 'react'
 import MainAppBar from './components/MainAppBar'
 import ServiceComponent from './components/ServiceComponent';
@@ -17,9 +17,13 @@ import useSchema from './hooks/useSchema';
 import { BluetoothContext } from './contexts/BluetoothContext';
 import { matchCharacteristic, matchService } from './utils/matchSchema'
 import Markdown from 'react-markdown'
+import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material'
+import useRawSchema from './hooks/useRawSchema'
+import { CodeBlock, dracula } from 'react-code-blocks'
 
 function App() {
   const schema = useSchema()
+  const rawSchema = useRawSchema()
 
   const bluetoothDeviceContext = useContext(BluetoothContext)
   if (bluetoothDeviceContext === undefined) {
@@ -157,6 +161,21 @@ function App() {
             <Chip label={`OpenBLE ${schema.openble}`} color="primary" />
           </Grid>
           <Grid xs={12} marginTop={2}>
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="subtitle1">View schema</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+              <CodeBlock
+                text={rawSchema ?? ''}
+                language="yaml"
+                showLineNumbers={true}
+                theme={dracula}
+              />
+              </AccordionDetails>
+            </Accordion>
+          </Grid>
+          <Grid xs={12} marginTop={2}>
             <Markdown>{schema.info.description}</Markdown>
           </Grid>
           <Grid xs={12}>
@@ -182,20 +201,20 @@ function App() {
             {
               bluetoothDevice === undefined
                 ? <Button
-                    variant="contained"
-                    onClick={handleConnect}
-                    startIcon={<BluetoothIcon />}
-                  >
-                    Connect
-                  </Button>
+                  variant="contained"
+                  onClick={handleConnect}
+                  startIcon={<BluetoothIcon />}
+                >
+                  Connect
+                </Button>
                 : <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={handleDisconnectClick}
-                    startIcon={<BluetoothDisabledIcon />}
-                  >
-                    Disconnect
-                  </Button>
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleDisconnectClick}
+                  startIcon={<BluetoothDisabledIcon />}
+                >
+                  Disconnect
+                </Button>
             }
 
           </Grid>
@@ -204,30 +223,33 @@ function App() {
               connectError !== undefined && <Typography color='error'>Error: {connectError}</Typography>
             }
           </Grid>
-        </Grid>
 
-        <Box marginTop={4} />
-        <Grid container spacing={1}>
-          <Grid>
-            <Typography variant='h4'>Services</Typography>
+          <Grid xs={12} marginTop={2}>
+            <Grid container spacing={1}>
+              <Grid>
+                <Typography variant='h4'>Services</Typography>
+              </Grid>
+              <Grid>
+                <Chip label={`#${Object.keys(schema.services).length}`} />
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid>
-            <Chip label={`#${Object.keys(schema.services).length}`} />
+
+          <Grid xs={12}>
+            <List>
+              {
+                Object.entries(schema.services).map(([serviceUuid, service], index) => {
+                  return <ServiceComponent
+                    key={serviceUuid}
+                    index={index}
+                    serviceUuid={serviceUuid}
+                    service={service}
+                  />
+                })
+              }
+            </List>
           </Grid>
         </Grid>
-
-        <List>
-          {
-            Object.entries(schema.services).map(([serviceUuid, service], index) => {
-              return <ServiceComponent
-                key={serviceUuid}
-                index={index}
-                serviceUuid={serviceUuid}
-                service={service}
-              />
-            })
-          }
-        </List>
       </Container>
     </Box>
   )

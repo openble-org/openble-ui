@@ -23,7 +23,7 @@ export default function CharacteristicCard({
   if (bluetoothDeviceContext === undefined) {
     throw Error('Not inside a BluetoothDeviceProvider')
   }
-  const { connectedCharacteristics } = bluetoothDeviceContext
+  const { bluetoothDevice, connectedCharacteristics } = bluetoothDeviceContext
   const connectedCharacteristic = connectedCharacteristics.get(uuid)
 
   const characteristicMatched = matchCharacteristic(connectedCharacteristic, characteristic)
@@ -125,7 +125,7 @@ export default function CharacteristicCard({
           </Grid>
 
           {
-            !characteristicMatched && <Grid xs={12} marginTop={3}>
+            bluetoothDevice !== undefined && !characteristicMatched && <Grid xs={12} marginTop={3}>
               <Chip label="Failed to match" icon={<WarningIcon />} color="warning" />
             </Grid>
           }

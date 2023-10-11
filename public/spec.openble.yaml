@@ -1,0 +1,42 @@
+openble: 0.1.0
+
+info:
+  title: Environment sensor
+  description: |
+    OpenBLE is swagger for Bluetooth Low Energy (BLE), an API definition language for GATT services.
+
+    ### Features
+
+    1. Connect and perfrom CRUD from the browser
+    2. Automatically validate your schema, just by connecting
+    3. Generate type safe clients and peripheral stubs
+    4. Version control your BLE APIs
+
+    ### Links
+
+    - [Learn more](https://openble.org)
+    - [Contribute on GitHub](https://github.com/openble-org/openble)
+    - Investors: contact@openble.org
+
+    Support the future of wireless APIs by [staring OpenBLE on GitHub](https://github.com/openble-org)
+
+  version: 1.0.0
+
+services:
+  environmental_sensing:
+    name: Environmental Sensing Service
+    summary: Service to read temperature and humidity
+    characteristics:
+      temperature_celsius:
+        name: Temperature
+        summary: Read or write temperature in Degree Celsius
+        dataType: INT32
+        permissions:
+          - READ
+          - WRITE
+      humidity:
+        name: Humidity
+        summary: Read humidity in percentage. A value of 50 denotes 50% humidity
+        dataType: UINT32
+        permissions:
+          - READ
