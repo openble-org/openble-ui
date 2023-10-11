@@ -42,7 +42,6 @@ function App() {
     serviceActions,
     connectedCharacteristics,
     characteristicActions,
-    connectedDescriptors,
     descriptorActions
   } = bluetoothDeviceContext
 
@@ -80,7 +79,7 @@ function App() {
         enqueueSnackbar('Schema match failed', { variant: 'error' })
       }
     }
-  }, [bluetoothDevice, connectedServices, connectedCharacteristics, connectedDescriptors])
+  }, [bluetoothDevice, schemaMatched])
 
   async function handleConnect() {
     // Clear existing error

@@ -1,5 +1,4 @@
 import * as Handlebars from "handlebars"
-import * as handlebarsHelpers from 'handlebars-helpers'
 import { ParsedSchema } from "../parsedSchema"
 import arduinobleCppTemplate from './arduinobleCpp.hbs?raw'
 import arduinobleHTemplate from './arduinobleH.hbs?raw'
