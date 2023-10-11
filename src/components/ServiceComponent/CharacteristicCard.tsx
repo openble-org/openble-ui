@@ -8,6 +8,7 @@ import { useContext, useState } from "react"
 import { BluetoothContext } from "../../contexts/BluetoothContext"
 import { decodeType, encodeType } from "../../lib/dataTypes"
 import { matchCharacteristic } from "../../utils/matchSchema"
+import { enqueueSnackbar } from "notistack"
 
 interface CharacteristicCardProps {
   index: number
@@ -45,8 +46,10 @@ export default function CharacteristicCard({
       const decodedValue = decodeType(value, characteristic.dataType)
       console.log('readValue', value, decodedValue)
       setReadValue(decodedValue.toString())
+
+      enqueueSnackbar('Read successful', { variant: "success" })
     } catch (error) {
-      console.error('Failed to read', error)
+      enqueueSnackbar(`Read failed: ${(error as Error).message}`, { variant: "error" })
     }
   }
 
@@ -57,10 +60,10 @@ export default function CharacteristicCard({
 
     try {
       const encodedValue = encodeType(writeValue, characteristic.dataType)
-      console.log('encoded as', encodedValue)
       await connectedCharacteristic.writeValue(encodedValue)
+      enqueueSnackbar('Write successful', { variant: "success" })
     } catch (error) {
-      console.error('Failed to write', error)
+      enqueueSnackbar(`Write failed: ${(error as Error).message}`, { variant: "error" })
     }
   }
 

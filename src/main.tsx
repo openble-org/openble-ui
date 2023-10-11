@@ -7,12 +7,16 @@ import '@fontsource/roboto/700.css';
 import CssBaseline from '@mui/material/CssBaseline';
 import App from './App.tsx'
 import { BluetoothProvider } from './contexts/BluetoothContext.tsx';
+import { SnackbarProvider } from 'notistack';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <CssBaseline />
     <BluetoothProvider>
-      <App />
+      <SnackbarProvider maxSnack={3}>
+        <App />
+      </SnackbarProvider>
     </BluetoothProvider>
+
   </React.StrictMode>,
 )

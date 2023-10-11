@@ -13,7 +13,7 @@ import Chip from '@mui/material/Chip';
 import List from '@mui/material/List'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Unstable_Grid2';
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import MainAppBar from './components/MainAppBar'
 import ServiceComponent from './components/ServiceComponent';
 import useSchema from './hooks/useSchema';
@@ -25,6 +25,7 @@ import { CodeBlock, dracula } from 'react-code-blocks'
 import { generateCode } from './lib/codegen';
 import rawSchema from './openble/spec.openble.yaml?raw'
 import useBluetoothError from './hooks/useBluetoothError';
+import { enqueueSnackbar } from 'notistack';
 
 function App() {
   const schema = useSchema()
@@ -41,6 +42,7 @@ function App() {
     serviceActions,
     connectedCharacteristics,
     characteristicActions,
+    connectedDescriptors,
     descriptorActions
   } = bluetoothDeviceContext
 
@@ -69,6 +71,16 @@ function App() {
       schemaMatched = true
     }
   }
+
+  useEffect(() => {
+    if (bluetoothDevice !== undefined) {
+      if (schemaMatched) {
+        enqueueSnackbar('Schema matched', { variant: 'success' })
+      } else {
+        enqueueSnackbar('Schema match failed', { variant: 'error' })
+      }
+    }
+  }, [bluetoothDevice, connectedServices, connectedCharacteristics, connectedDescriptors])
 
   async function handleConnect() {
     // Clear existing error
@@ -126,6 +138,7 @@ function App() {
 
       // Set state after async calls are finished
       setBluetoothDevice(device)
+      enqueueSnackbar('Connected', { variant: "info" })
     } catch (error) {
       console.error('Bluetooth connect error', error)
       setConnectError((error as Error).message)
@@ -134,6 +147,7 @@ function App() {
 
   function handleDisconnectEvent() {
     setBluetoothDevice(undefined)
+    enqueueSnackbar('Disconnected', { variant: "default" })
   }
 
   async function handleDisconnectClick() {
