@@ -7,18 +7,18 @@ info:
 
     ### Features
 
-    1. Connect and perfrom CRUD from the browser
-    2. Automatically validate your schema, just by connecting
-    3. Generate type safe clients and peripheral stubs
-    4. Version control your BLE APIs
+    1. Define your GATT services in YAML.
+    2. Say goodbye to searching UUIDs in datasheets. Directly use GATT and Nordic identifiers.
+    3. Read and write from your browser with Web Bluetooth.
+    4. Automatically validate your schema against a connected device.
+    5. Generate type safe clients and peripherals using a platform agnostic specification.
 
     ### Links
 
+    - [Demo video]()
     - [Learn more](https://openble.org)
-    - [Contribute on GitHub](https://github.com/openble-org/openble)
-    - Investors: contact@openble.org
-
-    Support the future of wireless APIs by [staring OpenBLE on GitHub](https://github.com/openble-org)
+    - [Follow on GitHub](https://github.com/openble-org/openble-sdk)
+    - Email: shardul@openble.org
 
   version: 1.0.0
 

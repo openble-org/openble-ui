@@ -1,27 +1,26 @@
-# React + TypeScript + Vite
+# OpenBLE UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web bluetooth frontend demonstrating the capabilties of OpenBLE.
 
-Currently, two official plugins are available:
+https://demo.openble.org
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Capabilities
 
-## Expanding the ESLint configuration
+1. Define your GATT services in YAML.
+2. Say goodbye to searching UUIDs in datasheets. Directly use GATT and Nordic identifiers.
+3. Read and write directly from your browser with Web Bluetooth.
+4. Automatically validate your schema with the connected device.
+5. Generate type safe clients and peripherals using a platform agnostic specification.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Resources
 
-- Configure the top-level `parserOptions` property like this:
+- [Demo video]()
+- [Docs](https://openble.org)
+- [SDK](https://github.com/openble-org/openble-sdk)
+- contact: shardul@openble.org
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+## How to use
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- Write your yaml schema [here](./src/openble/spec.openble.yaml)
+- Convert your yaml schema to json, then paste it [here](./src/openble/spec.openble.json)
+- Run project with `npm run dev`
