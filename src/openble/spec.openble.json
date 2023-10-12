@@ -2,7 +2,7 @@
    "openble": "0.1.0",
    "info": {
       "title": "Environment sensor",
-      "description": "OpenBLE is swagger for Bluetooth Low Energy (BLE), an API definition language for GATT services.\n\n### Features\n\n1. Define your GATT services in YAML.\n2. Say goodbye to searching UUIDs in datasheets. Directly use GATT and Nordic identifiers.\n3. Read and write from your browser with Web Bluetooth.\n4. Automatically validate your schema against a connected device.\n5. Generate type safe clients and peripherals using a platform agnostic specification.\n\n### Links\n\n- [Demo video]()\n- [Learn more](https://openble.org)\n- [Follow on GitHub](https://github.com/openble-org/openble-sdk)\n- Email: shardul@openble.org\n",
+      "description": "OpenBLE is swagger for Bluetooth Low Energy (BLE), an API definition language for GATT services.\n\n### Features\n\n1. Define your GATT services in YAML.\n2. Say goodbye to searching UUIDs in datasheets. Directly use GATT and Nordic identifiers.\n3. Read and write from your browser with Web Bluetooth.\n4. Automatically validate your schema against a connected device.\n5. Generate type safe clients and peripherals using a platform agnostic specification.\n\n### Links\n\n- [Demo video](https://www.loom.com/share/4f1304d2749d476682ed27727921d023?sid=5c100489-29cb-4641-aa5b-7b41570866e4)\n- [Learn more](https://openble.org)\n- [Follow on GitHub](https://github.com/openble-org/openble-sdk)\n- Email: shardul@openble.org\n",
       "version": "1.0.0"
    },
    "services": {

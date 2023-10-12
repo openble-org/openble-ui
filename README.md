@@ -14,7 +14,7 @@ https://demo.openble.org
 
 ## Resources
 
-- [Demo video]()
+- [Demo video](https://www.loom.com/share/4f1304d2749d476682ed27727921d023?sid=5c100489-29cb-4641-aa5b-7b41570866e4)
 - [Docs](https://openble.org)
 - [SDK](https://github.com/openble-org/openble-sdk)
 - contact: shardul@openble.org
