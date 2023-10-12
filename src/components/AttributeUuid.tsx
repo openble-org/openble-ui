@@ -5,7 +5,8 @@ import { enqueueSnackbar } from "notistack";
 import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen'
 import OpenInFullIcon from '@mui/icons-material/OpenInFull'
 import { useState } from "react";
-import { getShortUuid } from "@openble/openble-sdk";
+// import { getShortUuid } from "@openble/openble-sdk/dist/uuids/index";
+import { getShortUuid } from "@openble/openble-sdk"
 
 export interface AttributeUuidProps {
   uuid: string
