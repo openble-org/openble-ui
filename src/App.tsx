@@ -22,7 +22,7 @@ import { matchCharacteristic, matchService } from './utils/matchSchema'
 import Markdown from 'react-markdown'
 import { Accordion, AccordionDetails, AccordionSummary, Alert, Menu, MenuItem, Snackbar } from '@mui/material'
 import { CodeBlock, dracula } from 'react-code-blocks'
-import { generateCode } from './lib/codegen';
+import { generateCode } from '@openble/openble-sdk';
 import rawSchema from './openble/spec.openble.yaml?raw'
 import useBluetoothError from './hooks/useBluetoothError';
 import { enqueueSnackbar } from 'notistack';

@@ -3,10 +3,9 @@ import Grid from '@mui/material/Unstable_Grid2'
 import DoneIcon from '@mui/icons-material/Done'
 import CloseIcon from '@mui/icons-material/Close'
 import WarningIcon from '@mui/icons-material/Warning'
-import { ParsedCharacteristic } from "../../lib/parsedSchema"
+import { ParsedCharacteristic, decodeType, encodeType } from "@openble/openble-sdk"
 import { useContext, useState } from "react"
 import { BluetoothContext } from "../../contexts/BluetoothContext"
-import { decodeType, encodeType } from "../../lib/dataTypes"
 import { matchCharacteristic } from "../../utils/matchSchema"
 import { enqueueSnackbar } from "notistack"
 import AttributeUuid from "../AttributeUuid"

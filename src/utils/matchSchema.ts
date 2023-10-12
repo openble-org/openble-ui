@@ -1,4 +1,4 @@
-import { ParsedCharacteristic } from "../lib/parsedSchema";
+import { ParsedCharacteristic } from "@openble/openble-sdk";
 
 export function matchService(
   connectedService: BluetoothRemoteGATTService | undefined
