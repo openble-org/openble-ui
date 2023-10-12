@@ -1,5 +1,7 @@
 # OpenBLE UI
 
+[![](https://dcbadge.vercel.app/api/server/dJk69ZC6RD)](https://discord.gg/dJk69ZC6RD)
+
 A web bluetooth frontend demonstrating the capabilties of OpenBLE.
 
 https://demo.openble.org
@@ -17,6 +19,7 @@ https://demo.openble.org
 - [Demo video](https://www.loom.com/share/4f1304d2749d476682ed27727921d023?sid=5c100489-29cb-4641-aa5b-7b41570866e4)
 - [Docs](https://openble.org)
 - [SDK](https://github.com/openble-org/openble-sdk)
+- [Discord](https://discord.gg/dJk69ZC6RD)
 - contact: shardul@openble.org
 
 ## How to use
